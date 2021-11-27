@@ -6,12 +6,12 @@ import logging
 from telegram.ext import Updater
 
 db = Database()
-updater = Updater(token=TOKEN, use_context=True)
-dispatcher = updater.dispatcher
-
 
 def main():
-    add_handlers()
+    updater = Updater(token=TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+
+    add_handlers(dispatcher)
     updater.start_polling()
 
 
