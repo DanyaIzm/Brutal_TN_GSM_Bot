@@ -1,15 +1,17 @@
 from database.db_class import *
 from conf.config import *
+from keyboards.keyboards import *
+from handlers.handlers import *
 import logging
-from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import Updater
+
+db = Database()
+updater = Updater(token=TOKEN, use_context=True)
+dispatcher = updater.dispatcher
 
 
 def main():
-    updater = Updater(token=TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
-    db = Database()
-    
-
+    add_handlers()
     updater.start_polling()
 
 

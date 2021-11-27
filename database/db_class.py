@@ -3,7 +3,7 @@ import sqlite3
 
 # Класс для работы с базой данных
 class Database:
-    _connection = sqlite3.connect("database/main_db.db")
+    _connection = sqlite3.connect("database/main_db.db", check_same_thread=False)
     _cursor = _connection.cursor()
 
     def __init__(self):
@@ -44,6 +44,19 @@ class Database:
         else:
             # сообщение
             return False
+
+    def check_new_user(self, id, username, last_name, first_name):
+        check_query = f"SELECT * FROM users WHERE id = '{int(id)}'"
+        self._cursor.execute(check_query)
+
+        fetch = self._cursor.fetchone()
+        print(fetch)
+
+        if not self._cursor.fetchone():
+            if self.insert_user(id, username, last_name, first_name) == "ok":
+                return "ok"
+            else:
+                return "Ошибка"
 
     def insert_user(self, id, username, last_name, first_name):
         insert_query = f"INSERT INTO users(id, username, last_name, first_name, status) " \
