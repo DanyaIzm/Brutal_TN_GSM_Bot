@@ -1,11 +1,13 @@
-from database.db_class import *
-from conf.config import *
-from keyboards.keyboards import *
-from handlers.handlers import *
 import logging
 from telegram.ext import Updater
 
+from database.db_class import *
+from conf.config import *
+from handlers.handlers import *
+
+
 db = Database()
+
 
 def main():
     updater = Updater(token=TOKEN, use_context=True)
