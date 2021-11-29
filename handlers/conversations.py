@@ -1,8 +1,10 @@
 from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Filters
 
-from main import db
 from database.inserter_class import Inserter
+from .not_an_admin_handler import is_admin
+from main import db
 
+# Словари для кэша
 NEW_DRIVER_INFO = {
         'first_name': '1',
         'last_name': '1',
@@ -15,7 +17,7 @@ NEW_CAR_INFO = {
 NEW_TN_INFO = {
     '': ''
 }
-NEW_GSM_INFO= {
+NEW_GSM_INFO = {
     '': ''
 }
 
@@ -27,7 +29,11 @@ def cancel(update, context):
     return ConversationHandler.END
 
 
+# Добавление нового водителя
 def add_driver_start(update, context):
+    if not is_admin(update, context):
+        return ConversationHandler.END
+
     USER_INPUT.update({update.effective_chat.id: NEW_DRIVER_INFO})
 
     context.bot.send_message(chat_id=update.effective_chat.id, text="Введите фамилию водителя")

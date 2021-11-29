@@ -1,6 +1,6 @@
 from main import db
 from keyboards.keyboards import *
-from .messages import no_admin_message
+from .not_an_admin_handler import no_admin_message
 
 
 def start_message(update, context):
