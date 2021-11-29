@@ -8,10 +8,6 @@ class Selector(IDatabase):
         self._cursor = db._cursor
 
     def sql_query(self, query):
-        try:
-            self._cursor.execute(query)
-            self._connection.commit()
-            return "ok"
-        except Exception as e:
-            print(e)
-            return "Произошла ошибка!"
+        self._cursor.execute(query)
+        self._connection.commit()
+        return self._cursor.fetchall()

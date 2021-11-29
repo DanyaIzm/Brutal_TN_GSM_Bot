@@ -1,6 +1,24 @@
 from .conversations import *
 
 
+# SQL команда
+sql_query_conversation_handler = ConversationHandler(
+    entry_points=[
+        CommandHandler('sql', sql_query_start)
+    ],
+    states={
+        'init_sql_query': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, sql_query_execute)
+        ]
+    },
+    fallbacks=[
+        CommandHandler('cancel', cancel)
+    ]
+)
+
+
+# Добавить нового водителя
 add_driver_conversation_handler = ConversationHandler(
     entry_points=[
         MessageHandler(Filters.regex('Добавить водителя'), add_driver_start)

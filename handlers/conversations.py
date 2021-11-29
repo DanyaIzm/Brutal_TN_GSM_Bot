@@ -2,6 +2,7 @@ from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Fi
 
 from database.inserter_class import Inserter
 from .not_an_admin_handler import is_admin
+from database.selector_class import Selector
 from main import db
 
 # Словари для кэша
@@ -27,6 +28,35 @@ USER_INPUT = {}
 def cancel(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Действие отменено!")
     return ConversationHandler.END
+
+
+# SQL запрос
+def sql_query_start(update, context):
+    if not is_admin(update, context):
+        return ConversationHandler.END
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Введите запрос")
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text="Для отмены введите /cancel на любом пункте диалога")
+    return 'init_sql_query'
+
+
+def sql_query_execute(update, context):
+    sql_query_text = update.message.text
+
+    try:
+        selector = Selector(db)
+        fetch = selector.sql_query(sql_query_text)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Запрос успешно выполнен")
+        if fetch is None:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Нет текта ответа от БД")
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=f"{fetch}")
+    except Exception as e:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Не удалось выполнить запрос")
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"{e}")
+    finally:
+        return ConversationHandler.END
 
 
 # Добавление нового водителя

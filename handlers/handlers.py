@@ -16,6 +16,7 @@ def add_handlers(dispatcher):
 
     # Диалоги
     dispatcher.add_handler(add_driver_conversation_handler)
+    dispatcher.add_handler(sql_query_conversation_handler)
 
     # Ответ на неизвестные сообщения
     unknown_command_handler = MessageHandler(Filters.text, unknown_command)
