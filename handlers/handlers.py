@@ -17,4 +17,6 @@ def add_handlers(dispatcher):
     # Диалоги
     dispatcher.add_handler(add_driver_conversation_handler)
 
-    # TODO: Добавить ответ на остальные сообщения!!!
+    # Ответ на неизвестные сообщения
+    unknown_command_handler = MessageHandler(Filters.text, unknown_command)
+    dispatcher.add_handler(unknown_command_handler)
