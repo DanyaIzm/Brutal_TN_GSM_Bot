@@ -1,2 +1,3 @@
 /conf/config.py
 /database/main_db.db
+/conf/user_input.json

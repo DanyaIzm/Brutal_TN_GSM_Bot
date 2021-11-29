@@ -19,7 +19,8 @@ class Inserter(IDatabase):
             return "Произошла ошибка. Проверьте корректность введённых данных и попробуйте ещё раз"
 
     def insert_driver(self, last_name, first_name, patronymic):
-        insert_query = f"INSERT INTO drivers(last_name, fist_name, patronymic) VALUES ('{last_name}', '{first_name}', '{patronymic}')"
+        insert_query = f"INSERT INTO drivers(last_name, first_name, patronymic) VALUES " \
+                       f"('{last_name}', '{first_name}', '{patronymic}')"
 
         try:
             self._cursor.execute(insert_query)
