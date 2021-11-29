@@ -9,7 +9,7 @@ def start_message(update, context):
                          update.effective_chat.last_name, update.effective_chat.first_name) == "ok":
         context.bot.send_message(chat_id=update.effective_chat.id, text="Добро пожаловать в телеграм бота!")
     if db.check_if_admin(update.effective_chat.id):
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Выберите пункт меню: ",
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Открыто главное меню!",
                                  reply_markup=message_start_markup())
     else:
         no_admin_message(update, context)
