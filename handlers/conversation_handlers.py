@@ -41,3 +41,24 @@ add_driver_conversation_handler = ConversationHandler(
         CommandHandler('cancel', cancel)
     ]
 )
+
+
+# Добавить новую машину
+add_car_conversation_handler = ConversationHandler(
+    entry_points=[
+        MessageHandler(Filters.regex('Добавить машину'), add_car_start)
+    ],
+    states={
+        'init_number': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_car_number)
+        ],
+        'init_info': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_car_info)
+        ]
+    },
+    fallbacks=[
+        CommandHandler('cancel', cancel)
+    ]
+)

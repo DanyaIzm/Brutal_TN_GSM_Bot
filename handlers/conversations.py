@@ -7,10 +7,10 @@ from main import db
 
 # Словари для кэша
 NEW_DRIVER_INFO = {
-        'first_name': '1',
-        'last_name': '1',
-        'patronymic': '3'
-    }
+    'first_name': '',
+    'last_name': '',
+    'patronymic': ''
+}
 NEW_CAR_INFO = {
     'number': '',
     'info': ''
@@ -67,7 +67,8 @@ def add_driver_start(update, context):
     USER_INPUT.update({update.effective_chat.id: NEW_DRIVER_INFO})
 
     context.bot.send_message(chat_id=update.effective_chat.id, text="Введите фамилию водителя")
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Для отмены введите /cancel на любом пункте диалога")
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text="Для отмены введите /cancel на любом пункте диалога")
     return 'init_last_name'
 
 
@@ -114,6 +115,57 @@ def add_driver_patronymic(update, context):
         inserter.insert_driver(USER_INPUT[update.effective_chat.id]['last_name'],
                                USER_INPUT[update.effective_chat.id]['first_name'],
                                USER_INPUT[update.effective_chat.id]['patronymic'])
+        del USER_INPUT[update.effective_chat.id]
+    except Exception as e:
+        print(e)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Не удалось добавить информацию в базу данных")
+        return ConversationHandler.END
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Информация успешно добавлена")
+    return ConversationHandler.END
+
+
+# Добавить новую машину
+def add_car_start(update, context):
+    if not is_admin(update, context):
+        return ConversationHandler.END
+
+    USER_INPUT.update({update.effective_chat.id: NEW_CAR_INFO})
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Введите номер машины")
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text="Для отмены введите /cancel на любом пункте диалога")
+    return 'init_number'
+
+
+def add_car_number(update, context):
+    try:
+        USER_INPUT[update.effective_chat.id]['number'] = update.message.text
+    except Exception as e:
+        print(e)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Произошла ошибка.\n"
+                                                                        "Данные введены некорректно.\n\n"
+                                                                        "Введите номер ещё раз")
+        return 'init_number'
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Теперь введите информацию о машине")
+    return 'init_info'
+
+
+def add_car_info(update, context):
+    try:
+        USER_INPUT[update.effective_chat.id]['info'] = update.message.text
+    except Exception as e:
+        print(e)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Произошла ошибка.\n"
+                                                                        "Данные введены некорректно.\n\n"
+                                                                        "Введите информацию ещё раз")
+        return 'init_info'
+
+    try:
+        inserter = Inserter(db)
+        inserter.insert_car(USER_INPUT[update.effective_chat.id]['number'],
+                            USER_INPUT[update.effective_chat.id]['info'])
         del USER_INPUT[update.effective_chat.id]
     except Exception as e:
         print(e)

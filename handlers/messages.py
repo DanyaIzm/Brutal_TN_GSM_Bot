@@ -5,7 +5,8 @@ from .not_an_admin_handler import is_admin
 
 # Ответ на неизвестную команду/сообщение
 def unknown_command(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Извините, я вас не понимаю =(")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Извините, я вас не понимаю =(\n"
+                                                                    "Напишите или нажмите на /start")
 
 
 # Сообщение с кнопками запросов
