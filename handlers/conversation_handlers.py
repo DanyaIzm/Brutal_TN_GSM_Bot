@@ -62,3 +62,44 @@ add_car_conversation_handler = ConversationHandler(
         CommandHandler('cancel', cancel)
     ]
 )
+
+
+# Добавить тн
+add_tn_conversation_handler = ConversationHandler(
+    entry_points=[
+        MessageHandler(Filters.regex('Добавить ТН'), add_tn_start)
+    ],
+    states={
+        'init_tn_date': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_date)
+        ],
+        'init_shift': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_shift)
+        ],
+        'init_driver_ln': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_driver_ln)
+        ],
+        'init_car_number': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_car_number)
+        ],
+        'init_tn': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_tn)
+        ],
+        'init_cost': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_cost)
+        ],
+        'init_info': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_tn_info)
+        ]
+    },
+    fallbacks=[
+        CommandHandler('cancel', cancel)
+    ]
+)
