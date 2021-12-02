@@ -31,7 +31,7 @@ class Inserter(IDatabase):
         return "ok"
 
     def insert_gsm(self, gsm_date, shift, driver_ln, car_number, gsm, cost, info):
-        insert_query = f"INSERT INTO tn(gsm_date, shift, driver_ln, car_number, gsm, cost, info) " \
+        insert_query = f"INSERT INTO gsm(gsm_date, shift, driver_ln, car_number, gsm, cost, info) " \
                        f"VALUES ('{gsm_date}', '{shift}', '{driver_ln}', '{car_number}', '{gsm}', '{cost}', '{info}')"
 
         self._cursor.execute(insert_query)

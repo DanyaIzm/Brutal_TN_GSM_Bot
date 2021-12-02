@@ -19,6 +19,7 @@ def add_handlers(dispatcher):
     dispatcher.add_handler(add_driver_conversation_handler)
     dispatcher.add_handler(add_car_conversation_handler)
     dispatcher.add_handler(add_tn_conversation_handler)
+    dispatcher.add_handler(add_gsm_conversation_handler)
 
     # Ответ на неизвестные сообщения
     unknown_command_handler = MessageHandler(Filters.text, unknown_command)

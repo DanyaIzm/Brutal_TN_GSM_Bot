@@ -103,3 +103,44 @@ add_tn_conversation_handler = ConversationHandler(
         CommandHandler('cancel', cancel)
     ]
 )
+
+
+# Добавить гсм
+add_gsm_conversation_handler = ConversationHandler(
+    entry_points=[
+        MessageHandler(Filters.regex('Добавить ГСМ'), add_gsm_start)
+    ],
+    states={
+        'init_gsm_date': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_date)
+        ],
+        'init_shift': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_shift)
+        ],
+        'init_driver_ln': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_driver_ln)
+        ],
+        'init_car_number': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_car_number)
+        ],
+        'init_gsm': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_gsm)
+        ],
+        'init_cost': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_cost)
+        ],
+        'init_info': [
+            CommandHandler('cancel', cancel),
+            MessageHandler(Filters.text, add_gsm_info)
+        ]
+    },
+    fallbacks=[
+        CommandHandler('cancel', cancel)
+    ]
+)
